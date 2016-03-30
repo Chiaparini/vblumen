@@ -14,3 +14,14 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+
+$app->get('api/book','BookController@index');
+ 
+$app->get('api/book/{id}','BookController@getBook');
+ 
+$app->post('api/book','BookController@saveBook');
+ 
+$app->put('api/book/{id}','BookController@updateBook');
+ 
+$app->delete('api/book/{id}','BookController@deleteBook');

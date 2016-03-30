@@ -24,7 +24,12 @@ The Lumen framework is open-sourced software licensed under the [MIT license](ht
 
 ### INSTRUÇÕES ###
 
+
+
 Para começar
+
+Eu criei um banco base com uma tabela chamado -> vbdb
+então é só criarem um desse também, com o mesmo nome
 
 run 'composer install'
 
