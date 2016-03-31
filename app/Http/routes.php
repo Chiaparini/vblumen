@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
@@ -25,3 +27,11 @@ $app->post('api/book','BookController@saveBook');
 $app->put('api/book/{id}','BookController@updateBook');
  
 $app->delete('api/book/{id}','BookController@deleteBook');
+
+/* ROTAS REFERENTES À EDITORA */
+
+$app->get('api/editora', 'EditoraController@index');
+
+$app->get('api/editora/{id}', 'EditoraController@getEditora');
+
+$app->post('api/editora', 'EditoraController@saveEditora');
