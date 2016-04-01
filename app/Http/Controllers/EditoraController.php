@@ -36,10 +36,6 @@ class EditoraController extends Controller{
                 'cnpj.regex' => 'CNPJ incorreto',
             ];
 
-            /*$rules = $this->validate($request,[
-                'nome' => 'required'
-                ]);*/
-
             $validator = Validator::make($request->all(), [
                     'nome' => 'required',
                     'telefone' => 'digits_between:10,11',
@@ -54,8 +50,5 @@ class EditoraController extends Controller{
                 return response()->json($editora);
             }
         
-
-        
- 
     }
 }

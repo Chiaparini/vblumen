@@ -35,3 +35,11 @@ $app->get('api/editora', 'EditoraController@index');
 $app->get('api/editora/{id}', 'EditoraController@getEditora');
 
 $app->post('api/editora', 'EditoraController@saveEditora');
+
+/* ROTAS REFERENTES AO AUTOR */
+
+$app->get('api/autor', 'AutorController@index');
+
+$app->get('api/autor/{id}', 'AutorController@getAutor');
+
+$app->post('api/autor', 'AutorController@saveAutor');
