@@ -11,7 +11,7 @@ namespace App\Models;
      protected $table = 'categorias';
 
      public function livro(){
-     	return $this->belongsTo('App\Models\Livro');
+     	return $this->belongsToMany('App\Models\Livro');
      }
 
      

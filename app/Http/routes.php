@@ -43,3 +43,7 @@ $app->get('api/autor', 'AutorController@index');
 $app->get('api/autor/{id}', 'AutorController@getAutor');
 
 $app->post('api/autor', 'AutorController@saveAutor');
+
+/* ROTAS REFERENTES AO LIVRO */
+
+$app->post('api/livro', 'LivroController@saveLivro');

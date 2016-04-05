@@ -7,5 +7,9 @@ namespace App\Models;
  {
      
      protected $fillable = ['nome', 'cnpj', 'endereco', 'telefone'];
+
+     public function livros(){
+     	return $this->hasMany('App\Models\Livro');
+     }
      
  }
