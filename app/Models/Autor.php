@@ -10,6 +10,8 @@ namespace App\Models;
 
      protected $table = 'autores';
 
-     
+     public function livros(){
+     	return $this->belongsToMany('App\Models\Livro');
+     }
 
 }

@@ -19,4 +19,8 @@ namespace App\Models;
      	return $this->belongsToMany('App\Models\Categoria');
      }
 
+     public function autores(){
+     	return $this->belongsToMany('App\Models\Autor');
+     }
+
 }
