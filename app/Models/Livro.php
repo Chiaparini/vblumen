@@ -14,9 +14,9 @@ namespace App\Models;
      public function editora(){
      	return $this->belongsTo('App\Models\Editora');
      }
-/*
+
      public function categorias(){
      	return $this->belongsToMany('App\Models\Categoria');
-     }*/
+     }
 
 }

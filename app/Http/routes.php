@@ -17,17 +17,6 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-
-$app->get('api/book','BookController@index');
- 
-$app->get('api/book/{id}','BookController@getBook');
- 
-$app->post('api/book','BookController@saveBook');
- 
-$app->put('api/book/{id}','BookController@updateBook');
- 
-$app->delete('api/book/{id}','BookController@deleteBook');
-
 /* ROTAS REFERENTES À EDITORA */
 
 $app->get('api/editora', 'EditoraController@index');
@@ -47,3 +36,7 @@ $app->post('api/autor', 'AutorController@saveAutor');
 /* ROTAS REFERENTES AO LIVRO */
 
 $app->post('api/livro', 'LivroController@saveLivro');
+
+/* ROTA PARA SELEÇÃO DE CATEGORIAS */
+
+$app->get('api/categoria', 'CategoriaController@index');
