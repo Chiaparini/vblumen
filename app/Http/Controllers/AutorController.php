@@ -19,8 +19,11 @@ class AutorController extends Controller{
             $data = explode("-", $autor['dtNasc']);
             $autor['dtNasc'] = $data[2] . "-" . $data[1] . "-" . $data[0];
 
-            $data = explode("-", $autor['dtFal']);
-            $autor['dtFal'] = $data[2] . "-" . $data[1] . "-" . $data[0];
+
+            if(!is_null($autor['dtFal'])){
+                $data = explode("-", $autor['dtFal']);
+                $autor['dtFal'] = $data[2] . "-" . $data[1] . "-" . $data[0];
+            }
         }
         
         return response()->json($autores);
@@ -35,9 +38,10 @@ class AutorController extends Controller{
         $data = explode("-", $autor['dtNasc']);
         $autor['dtNasc'] = $data[2] . "-" . $data[1] . "-" . $data[0];
 
-        $data = explode("-", $autor['dtFal']);
-        $autor['dtFal'] = $data[2] . "-" . $data[1] . "-" . $data[0];
-
+        if(!is_null($autor['dtFal'])){
+            $data = explode("-", $autor['dtFal']);
+            $autor['dtFal'] = $data[2] . "-" . $data[1] . "-" . $data[0];
+        }
 
         return response()->json($autor);
     }

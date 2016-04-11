@@ -37,6 +37,8 @@ $app->post('api/autor', 'AutorController@saveAutor');
 
 $app->post('api/livro', 'LivroController@saveLivro');
 
+$app->get('api/livro', 'LivroController@index');
+
 /* ROTA PARA SELEÇÃO DE CATEGORIAS */
 
 $app->get('api/categoria', 'CategoriaController@index');

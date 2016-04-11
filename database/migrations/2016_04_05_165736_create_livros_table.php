@@ -16,7 +16,7 @@ class CreateLivrosTable extends Migration
             $table->increments('id');
             $table->integer('isbn');
             $table->string('resumo');
-            $table->string('indice')->nullable();
+            $table->string('indice');
             $table->date('dtPublicacao');
             $table->string('titulo');
             $table->double('precovenda');

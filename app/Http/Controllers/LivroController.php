@@ -4,13 +4,59 @@ namespace App\Http\Controllers;
  
 use App\Models\Livro;
 use App\Models\Autor;
+use App\Models\Categoria;
 use App\Models\Categoria_Livro;
 use App\Models\Autor_Livro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
  
+use DB;
 class LivroController extends Controller{
+
+
+	public function index(){
+		/*$livros  = Livro::all();*/
+		$result = array();
+
+		$livros = Livro::all();
+
+		for($i = 0; $i <  count($livros); $i++){
+			$idLivro = $livros[$i]['id'];
+
+			$editora = array();
+			$editora = Livro::find($idLivro);
+
+			
+			$autor = DB::table('autor_livro')
+									->join('livros', 'autor_livro.livro_id', '=', 'livros.id')
+									->join('autores', 'autor_livro.autor_id', '=', 'autores.id')
+									->select('autores.nome')
+									->where('autor_livro.livro_id', '=', $idLivro)
+									->get();
+
+			$categoria = DB::table('categoria_livro')
+									->join('livros', 'categoria_livro.livro_id', '=', 'livros.id')
+									->join('categorias', 'categoria_livro.categoria_id', '=', 'categorias.id')
+									->select('categorias.categoria')
+									->where('categoria_livro.livro_id', '=', $idLivro)
+									->get();
+
+			$result[$i] = [
+				"livro" =>$livros[$i],
+				"autor" => $autor,
+				"editora" => $editora->editora->nome,
+				"categoria" => $categoria,
+			];
+
+		}
+
+		
+ 
+
+
+        return response()->json($result);
+	}
 
 	public function saveLivro(Request $request){
 
@@ -30,6 +76,8 @@ class LivroController extends Controller{
 			'editora_id.required' => 'Campo editora obrigatório',
 			'categorias.required'  => 'Deve ter pelo menos uma categoria',
 			'autores.required' => 'Deve ter pelo menos um autor',
+			'indice.required' => 'Campo índice obrigatório',
+			'indice.url' => 'O campo índice deve indicar um endereço web válido'
 		];
 
 		$validator = Validator::make($request->all(),[
@@ -43,6 +91,7 @@ class LivroController extends Controller{
 			'editora_id' => 'required',
 			'categorias' => 'required',
 			'autores' => 'required',
+			'indice' => 'required|url',
 
 			], $messages);
 
