@@ -39,6 +39,10 @@ $app->post('api/livro', 'LivroController@saveLivro');
 
 $app->get('api/livro', 'LivroController@index');
 
+$app->get('api/livro/{titulo}/{editora}/{categoria}/{autor}', 'LivroController@getLivros');
+
+
+
 /* ROTA PARA SELEÇÃO DE CATEGORIAS */
 
 $app->get('api/categoria', 'CategoriaController@index');

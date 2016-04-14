@@ -58,6 +58,42 @@ class LivroController extends Controller{
         return response()->json($result);
 	}
 
+	public function getLivros($titulo = null, $editora = null, $categoria = null, $autor = null){
+		/* GO HORSE!!! */
+		if($editora == "null"){
+			$editora = "";
+		}
+		/* GO HORSE!!! */
+		if($titulo == "null"){
+			$titulo = "";
+		}
+		/* GO HORSE!!! */
+		if($categoria == "null"){
+			$categoria = "";
+		}
+		/* GO HORSE!!! */
+		if($autor == "null"){
+			$autor = "";
+		}
+
+		/* MACGYVER STYLE */
+		$livros = DB::table('livros')
+								->join('editoras', 'editoras.id', '=', 'livros.editora_id')
+								->join('categoria_livro', 'categoria_livro.livro_id', '=', 'livros.id')
+								->join('categorias', 'categoria_livro.categoria_id', '=', 'categorias.id')
+								->join('autor_livro', 'autor_livro.livro_id', '=', 'livros.id')
+								->join('autores', 'autor_livro.autor_id', '=', 'autores.id')
+								->where('editoras.nome', 'like', "%".$editora."%")
+								->where('categorias.categoria', 'like', "%".$categoria."%")
+								->where('autores.nome', 'like', "%".$autor."%")
+								->where('titulo', 'like', "%".$titulo."%")
+								
+								
+								->get();
+
+		return response()->json($livros);
+	}
+
 	public function saveLivro(Request $request){
 
 		$messages = [
