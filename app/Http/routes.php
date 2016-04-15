@@ -39,6 +39,8 @@ $app->post('api/livro', 'LivroController@saveLivro');
 
 $app->get('api/livro', 'LivroController@index');
 
+$app->get('api/livro/{id}', 'LivroController@selectLivro');
+
 $app->get('api/livro/{titulo}/{editora}/{categoria}/{autor}', 'LivroController@getLivros');
 
 

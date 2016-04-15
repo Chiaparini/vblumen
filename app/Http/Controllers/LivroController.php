@@ -58,6 +58,16 @@ class LivroController extends Controller{
         return response()->json($result);
 	}
 
+	public function selectLivro($id){
+		$livro = Livro::find($id);
+
+		$autor = $livro->autores;
+		$categoria = $livro->categorias;
+		$editora = $livro->editora;
+
+		return response()->json($livro);
+	}
+
 	public function getLivros($titulo = null, $editora = null, $categoria = null, $autor = null){
 		/* GO HORSE!!! */
 		if($editora == "null"){
