@@ -16,44 +16,26 @@ class LivroController extends Controller{
 
 
 	public function index(){
-		/*$livros  = Livro::all();*/
+		/* Resultado da consulta a ser exibida no JSON */		
 		$result = array();
 
 		$livros = Livro::all();
 
 		for($i = 0; $i <  count($livros); $i++){
 			$idLivro = $livros[$i]['id'];
-
-			$editora = array();
-			$editora = Livro::find($idLivro);
-
 			
-			$autor = DB::table('autor_livro')
-									->join('livros', 'autor_livro.livro_id', '=', 'livros.id')
-									->join('autores', 'autor_livro.autor_id', '=', 'autores.id')
-									->select('autores.nome')
-									->where('autor_livro.livro_id', '=', $idLivro)
-									->get();
+			/* Seleciona um registro dos livros */
+			$unidade = Livro::find($idLivro);
 
-			$categoria = DB::table('categoria_livro')
-									->join('livros', 'categoria_livro.livro_id', '=', 'livros.id')
-									->join('categorias', 'categoria_livro.categoria_id', '=', 'categorias.id')
-									->select('categorias.categoria')
-									->where('categoria_livro.livro_id', '=', $idLivro)
-									->get();
+			/* Relaciona as informa~ções correspondentes de autores, editora e categorias */
+			$autor = $unidade->autores;
+			$editora = $unidade->editora;
+			$categoria = $unidade->categorias;
 
-			$result[$i] = [
-				"livro" =>$livros[$i],
-				"autor" => $autor,
-				"editora" => $editora->editora->nome,
-				"categoria" => $categoria,
-			];
+			array_push($result, $unidade);
+
 
 		}
-
-		
- 
-
 
         return response()->json($result);
 	}
@@ -61,14 +43,18 @@ class LivroController extends Controller{
 	public function selectLivro($id){
 		$livro = Livro::find($id);
 
+		/* Relaciona as informa~ções correspondentes de autores, editora e categorias */
 		$autor = $livro->autores;
-		$categoria = $livro->categorias;
 		$editora = $livro->editora;
-
+		$categoria = $livro->categorias;
+		
 		return response()->json($livro);
 	}
 
 	public function getLivros($titulo = null, $editora = null, $categoria = null, $autor = null){
+
+		$result = array();
+
 		/* GO HORSE!!! */
 		if($editora == "null"){
 			$editora = "";
@@ -88,6 +74,9 @@ class LivroController extends Controller{
 
 		/* MACGYVER STYLE */
 		$livros = DB::table('livros')
+								/* Seleciona apenas os campos a serem mostrados no resultado da pesquisa:
+									id do livro (livro_id), preço de venda, nome do autor e o título do livro */
+								->select(/*'autor_livro.livro_id', 'categoria_livro.livro_id',*/ 'livros.id', 'livros.titulo', 'livros.precovenda')
 								->join('editoras', 'editoras.id', '=', 'livros.editora_id')
 								->join('categoria_livro', 'categoria_livro.livro_id', '=', 'livros.id')
 								->join('categorias', 'categoria_livro.categoria_id', '=', 'categorias.id')
@@ -97,14 +86,25 @@ class LivroController extends Controller{
 								->where('categorias.categoria', 'like', "%".$categoria."%")
 								->where('autores.nome', 'like', "%".$autor."%")
 								->where('titulo', 'like', "%".$titulo."%")
-								
-								
+								->distinct()
 								->get();
 
-		return response()->json($livros);
+		/* VAMOS CARPEADO!!!*/
+		foreach ($livros as $livro) {
+			$autor = DB::table('autores')
+								->select('autores.nome as autor')
+								->join('autor_livro', 'autor_livro.autor_id', '=', 'autores.id')
+								->where('autor_livro.livro_id', '=', $livro->id)
+								->get();
+
+			array_push($result, $livro, $autor);
+		}
+
+		return response()->json($result);
 	}
 
 	public function saveLivro(Request $request){
+
 
 		$messages = [
 			'isbn.required' => 'Campo ISBN obrigatório',
