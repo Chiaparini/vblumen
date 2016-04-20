@@ -47,8 +47,20 @@ class AutorController extends Controller{
     }
  
     public function saveAutor(Request $request){
- 
-        
+        // "validação" de data de nascimento anterior a atual...
+        //Go Roach!!
+        if($request['dtNasc'] >= date("Y-m-d")){
+            $request['dtNasc'] = null;
+        }
+
+        // "validação" de data de nascimento maior que a de falecimento
+        if(!is_null($request['dtFal'])){
+            if($request['dtNasc'] > $request['dtFal']){
+                $request['dtNasc'] = null;
+            }
+        }
+
+        /*return response()->json($request['dtNasc']);*/
 
         $messages = [
                 'nome.required' => 'Campo nome obrigatório',
@@ -60,17 +72,19 @@ class AutorController extends Controller{
 
             $messages = [
                 'nome.required' => 'Campo nome obrigatório',
+                'dtNasc.required' => 'Data de nascimento inválida',
                 'dtNasc.date_format' => 'Data de nascimento incorreta',
-                'dtFal.required_with' => 'O local da morte também deve ser preenchido',
+                'dtFal.required_with' => 'A data da morte também deve ser preenchida',
                 'dtFal.date_format' => 'Data de falecimento incorreta',
-                'localFal.required_with' => 'A data da morte também deve ser preenchida',
+                'localFal.required_with' => 'O local da morte também deve ser preenchido',
                 'localNasc.required'  => 'Campo local de nascimento obrigatório',
                 'biografia.required'  => 'Campo biografia obrigatório',
+                'dtNasc.dtMenorAtual' => 'Data de nascimento não pode ser menor que a atual',
             ];
 
             $validator = Validator::make($request->all(), [
                 'nome' => 'required',
-                'dtNasc' => 'date_format:Y-m-d',
+                'dtNasc' => 'required|date_format:Y-m-d',
                 'dtFal' => 'required_with:localFal|date_format:Y-m-d',
                 'localFal' => 'required_with:dtFal',
                 'localNasc' => 'required',
@@ -83,6 +97,7 @@ class AutorController extends Controller{
 
             $messages = [
                 'nome.required' => 'Campo nome obrigatório',
+                'dtNasc.required' => 'Data de nascimento inválida',
                 'dtNasc.date_format' => 'Data de nascimento incorreta',
                 'localNasc.required'  => 'Campo local de nascimento obrigatório',
                 'biografia.required'  => 'Campo biografia obrigatório',
@@ -90,7 +105,7 @@ class AutorController extends Controller{
              
             $validator = Validator::make($request->all(), [
                 'nome' => 'required',
-                'dtNasc' => 'date_format:Y-m-d',
+                'dtNasc' => 'required|date_format:Y-m-d',
                 'localNasc' => 'required',
                 'biografia' => 'required',
                                 
@@ -114,6 +129,7 @@ class AutorController extends Controller{
             }
 
             return response()->json($autor);
+            
         }
 
         
