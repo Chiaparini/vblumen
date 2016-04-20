@@ -71,7 +71,7 @@ class AutorController extends Controller{
             $validator = Validator::make($request->all(), [
                 'nome' => 'required',
                 'dtNasc' => 'date_format:Y-m-d',
-                'dtFal' => 'date_format:Y-m-d|required_with:localFal',
+                'dtFal' => 'required_with:localFal|date_format:Y-m-d',
                 'localFal' => 'required_with:dtFal',
                 'localNasc' => 'required',
                 'biografia' => 'required',

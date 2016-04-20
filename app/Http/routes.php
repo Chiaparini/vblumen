@@ -48,3 +48,7 @@ $app->get('api/livro/{titulo}/{editora}/{categoria}/{autor}', 'LivroController@g
 /* ROTA PARA SELEÇÃO DE CATEGORIAS */
 
 $app->get('api/categoria', 'CategoriaController@index');
+
+/* ROTA PARA GESTÃO DO CARRINHO */
+
+$app->get('api/carrinho/{idLivro}/{qtde}', 'CarrinhoController@inserir');

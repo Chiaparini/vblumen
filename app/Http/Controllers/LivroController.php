@@ -27,7 +27,7 @@ class LivroController extends Controller{
 			/* Seleciona um registro dos livros */
 			$unidade = Livro::find($idLivro);
 
-			/* Relaciona as informa~ções correspondentes de autores, editora e categorias */
+			/* Relaciona as informações correspondentes de autores, editora e categorias */
 			$autor = $unidade->autores;
 			$editora = $unidade->editora;
 			$categoria = $unidade->categorias;
@@ -90,6 +90,7 @@ class LivroController extends Controller{
 								->get();
 
 		/* VAMOS CARPEADO!!!*/
+		/* Agrupa os resultados de muitos autores em um mesmo livro */
 		foreach ($livros as $livro) {
 			$autor = DB::table('autores')
 								->select('autores.nome as autor')
