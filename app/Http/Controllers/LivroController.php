@@ -92,13 +92,15 @@ class LivroController extends Controller{
 		/* VAMOS CARPEADO!!!*/
 		/* Agrupa os resultados de muitos autores em um mesmo livro */
 		foreach ($livros as $livro) {
-			$autor = DB::table('autores')
-								->select('autores.nome as autor')
+			$busca = Livros::find($livro->id);
+			$autor = $busca->autores;
+			/*$autor = DB::table('livros')
+								->select()
 								->join('autor_livro', 'autor_livro.autor_id', '=', 'autores.id')
 								->where('autor_livro.livro_id', '=', $livro->id)
 								->get();
-
-			array_push($result, $livro, $autor);
+*/
+			array_push($result, $busca);
 		}
 
 		return response()->json($result);
