@@ -1,7 +1,7 @@
 <?php
- 
+
 namespace App\Http\Controllers;
- 
+
 use App\Models\Livro;
 use App\Models\Autor;
 use App\Models\Categoria;
@@ -10,20 +10,20 @@ use App\Models\Autor_Livro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
- 
+
 use DB;
 class LivroController extends Controller{
 
 
 	public function index(){
-		/* Resultado da consulta a ser exibida no JSON */		
+		/* Resultado da consulta a ser exibida no JSON */
 		$result = array();
 
 		$livros = Livro::all();
 
 		for($i = 0; $i <  count($livros); $i++){
 			$idLivro = $livros[$i]['id'];
-			
+
 			/* Seleciona um registro dos livros */
 			$unidade = Livro::find($idLivro);
 
@@ -47,7 +47,7 @@ class LivroController extends Controller{
 		$autor = $livro->autores;
 		$editora = $livro->editora;
 		$categoria = $livro->categorias;
-		
+
 		return response()->json($livro);
 	}
 
@@ -76,13 +76,15 @@ class LivroController extends Controller{
 		/* VAMOS CARPEADO!!!*/
 		/* Agrupa os resultados de muitos autores em um mesmo livro */
 		foreach ($livros as $livro) {
-			$autor = DB::table('autores')
-								->select('autores.nome as autor')
+			$busca = Livro::find($livro->id);
+			$autor = $busca->autores;
+			/*$autor = DB::table('livros')
+								->select()
 								->join('autor_livro', 'autor_livro.autor_id', '=', 'autores.id')
 								->where('autor_livro.livro_id', '=', $livro->id)
 								->get();
-
-			array_push($result, $livro, $autor);
+*/
+			array_push($result, $busca);
 		}
 
 		return response()->json($result);
@@ -134,7 +136,7 @@ class LivroController extends Controller{
 			$livro = Livro::create($request->all());
 			$livro_id = $livro->id;
 
-			/* Realiza a iteração para relacionar as 
+			/* Realiza a iteração para relacionar as
 			categorias selecionadas para este livro */
 			foreach($request->input('categorias') as $cats){
 				$cat = array();
@@ -143,7 +145,7 @@ class LivroController extends Controller{
 				$cat = Categoria_Livro::create($cat);
 			}
 
-			/* Realiza a iteração para relacionar os 
+			/* Realiza a iteração para relacionar os
 			autores selecionadas para este livro */
 			foreach($request->input('autores') as $auts){
 				$aut = array();
