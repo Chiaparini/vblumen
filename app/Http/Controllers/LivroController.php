@@ -51,26 +51,10 @@ class LivroController extends Controller{
 		return response()->json($livro);
 	}
 
-	public function getLivros($titulo = null, $editora = null, $categoria = null, $autor = null){
+	/*public function getLivros($titulo = null, $editora = null, $categoria = null, $autor = null){*/
+		public function getLivros(Request $request){
 
 		$result = array();
-
-		/* GO HORSE!!! */
-		if($editora == "null"){
-			$editora = "";
-		}
-		/* GO HORSE!!! */
-		if($titulo == "null"){
-			$titulo = "";
-		}
-		/* GO HORSE!!! */
-		if($categoria == "null"){
-			$categoria = "";
-		}
-		/* GO HORSE!!! */
-		if($autor == "null"){
-			$autor = "";
-		}
 
 		/* MACGYVER STYLE */
 		$livros = DB::table('livros')
@@ -82,10 +66,10 @@ class LivroController extends Controller{
 								->join('categorias', 'categoria_livro.categoria_id', '=', 'categorias.id')
 								->join('autor_livro', 'autor_livro.livro_id', '=', 'livros.id')
 								->join('autores', 'autor_livro.autor_id', '=', 'autores.id')
-								->where('editoras.nome', 'like', "%".$editora."%")
-								->where('categorias.categoria', 'like', "%".$categoria."%")
-								->where('autores.nome', 'like', "%".$autor."%")
-								->where('titulo', 'like', "%".$titulo."%")
+								->where('editoras.nome', 'like', "%".$request['editora']."%")
+								->where('categorias.categoria', 'like', "%".$request['categoria']."%")
+								->where('autores.nome', 'like', "%".$request['autor']."%")
+								->where('titulo', 'like', "%".$request['titulo']."%")
 								->distinct()
 								->get();
 
