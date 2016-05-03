@@ -112,7 +112,11 @@ class LivroController extends Controller{
 			'categorias.required'  => 'Deve ter pelo menos uma categoria',
 			'autores.required' => 'Deve ter pelo menos um autor',
 			'indice.required' => 'Campo índice obrigatório',
-			'indice.url' => 'O campo índice deve indicar um endereço web válido'
+			'indice.url' => 'O campo índice deve indicar um endereço web válido',
+			'formato.required' => 'Selecione pelo menos um dos formatos sugeridos',
+			'paginas.required' => 'Campo páginas obrigatório',
+			'paginas.integer' => 'O número de páginas deve ser um número inteiro',
+			'paginas.between' => 'Número inválido para páginas',
 		];
 
 		$validator = Validator::make($request->all(),[
@@ -127,6 +131,8 @@ class LivroController extends Controller{
 			'categorias' => 'required',
 			'autores' => 'required',
 			'indice' => 'required|url',
+			'formato' => 'required',
+			'paginas' => 'required|integer|between:1,2147483647',
 
 			], $messages);
 

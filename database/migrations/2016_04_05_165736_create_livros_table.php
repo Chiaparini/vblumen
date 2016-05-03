@@ -20,7 +20,7 @@ class CreateLivrosTable extends Migration
             $table->date('dtPublicacao');
             $table->string('titulo');
             $table->double('precovenda');
-            $table->int('paginas');
+            $table->integer('paginas');
             $table->string('formato');
 
             $table->double('precocusto');
