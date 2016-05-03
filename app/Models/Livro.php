@@ -1,13 +1,13 @@
-<?php 
+<?php
 namespace App\Models;
 
  use Illuminate\Database\Eloquent\Model;
 
  class Livro extends Model
  {
-     
-     protected $fillable = ['isbn', 'resumo', 'indice', 'dtPublicacao', 
-     	'titulo', 'precovenda', 'precocusto', 'estoque', 'editora_id'];
+
+     protected $fillable = ['isbn', 'resumo', 'indice', 'dtPublicacao',
+     	'titulo', 'precovenda', 'precocusto', 'estoque', 'editora_id', 'paginas', 'formato'];
 
      protected $table = 'livros';
 

@@ -78,6 +78,7 @@ class LivroController extends Controller{
 		foreach ($livros as $livro) {
 			$busca = Livro::find($livro->id);
 			$autor = $busca->autores;
+			$editora = $busca->editora;
 			/*$autor = DB::table('livros')
 								->select()
 								->join('autor_livro', 'autor_livro.autor_id', '=', 'autores.id')
